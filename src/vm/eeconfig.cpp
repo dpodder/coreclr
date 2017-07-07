@@ -178,13 +178,11 @@ HRESULT EEConfig::Init()
     iGCHeapVerify = 0;          // Heap Verification OFF by default
 #endif
 
-#ifdef _DEBUG // TRACE_GC
     iGCtraceStart = INT_MAX; // Set to huge value so GCtrace is off by default
     iGCtraceEnd   = INT_MAX;
     iGCtraceFac   = 0;
     iGCprnLvl     = DEFAULT_GC_PRN_LVL;
     
-#endif
 
 #if defined(STRESS_HEAP) || defined(_DEBUG)
     iGCStress     = 0;
@@ -899,14 +897,12 @@ HRESULT EEConfig::sync()
 
     fGCBreakOnOOM   =  (GetConfigDWORD_DontUse_(CLRConfig::UNSUPPORTED_GCBreakOnOOM, fGCBreakOnOOM) != 0);
 
-#ifdef TRACE_GC
     iGCtraceStart       =  GetConfigDWORD_DontUse_(CLRConfig::UNSUPPORTED_GCtraceStart, iGCtraceStart);
     iGCtraceEnd         =  GetConfigDWORD_DontUse_(CLRConfig::UNSUPPORTED_GCtraceEnd, iGCtraceEnd);
-    iGCtraceFac         =  GetConfigDWORD_DontUse_(CLRConfig::INTERNAL_GCtraceFacility, iGCtraceFac);
     iGCprnLvl           =  GetConfigDWORD_DontUse_(CLRConfig::UNSUPPORTED_GCprnLvl, iGCprnLvl);
-#endif
 
 #ifdef _DEBUG
+    iGCtraceFac         =  GetConfigDWORD_DontUse_(CLRConfig::INTERNAL_GCtraceFacility, iGCtraceFac);
     iInjectFatalError   = GetConfigDWORD_DontUse_(CLRConfig::INTERNAL_InjectFatalError, iInjectFatalError);
 
     fSaveThreadInfo     =  (GetConfigDWORD_DontUse_(CLRConfig::INTERNAL_SaveThreadInfo, fSaveThreadInfo) != 0);
