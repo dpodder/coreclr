@@ -2943,6 +2943,8 @@ void* __cdecl GCSafeMemCpy(void * dest, const void * src, size_t len)
 // We must make this guarantee whenever we clear memory in the GC heap that could contain 
 // object references.  The GC or other user threads can read object references at any time, 
 // clearing them bytewise can result in a read on another thread getting incorrect data.  
+#pragma optimize("", off)
+__declspec(noinline)
 void __fastcall ZeroMemoryInGCHeap(void* mem, size_t size)
 {
     WRAPPER_NO_CONTRACT;
@@ -2964,6 +2966,7 @@ void __fastcall ZeroMemoryInGCHeap(void* mem, size_t size)
     while (memBytes < endBytes)
         *memBytes++ = 0;
 }
+#pragma optimize("", on)
 
 void StackTraceArray::Append(StackTraceElement const * begin, StackTraceElement const * end)
 {
